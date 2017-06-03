@@ -5,11 +5,16 @@ const Controls = (props) => {
   return (
     <div id="controls">
       <div class="space" />
-      <div class={btnClass} onClick={props.onStartStop}>{text}</div>
-      <div class="button" onClick={props.onClear}>clear</div>
-      <div class="inactive button">radius:</div>
-      <div class="button" onClick={props.increaseRadius}>+</div>
-      <div class="button" onClick={props.decreaseRadius}>-</div>
+      <div class="button" id={text} title={text} onClick={props.onStartStop} />
+      <div class="button" id="clear" title="clear board" onClick={props.onClear} />
+      <div class="button" id="random" title="randomize" onClick={props.onRandomize} />
+      <div class="label button">speed:</div>
+      <div class="button" id="slower" title="decrease speed" onClick={props.decreaseSpeed} />
+      <div class="button" id="faster" title="increase speed" onClick={props.increaseSpeed} />
+      <div class="label button">radius:</div>
+      <div class="button" id="increase" title="increase cell radius" onClick={props.increaseRadius} />
+      <div class="button" id="decrease" title="decrease cell radius" onClick={props.decreaseRadius} />
+
       <div class="space" />
     </div>
   );

@@ -1,0 +1,63 @@
+html, body {
+	font: 14px/1.21 'Helvetica Neue', arial, sans-serif;
+	font-weight: 400;
+	color: #444;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+	text-align: center;
+}
+
+svg {
+	outline: 2px solid #eee;
+	margin: 10px auto;
+	display: block;
+}
+
+#controls {
+	padding: 3px;
+	display: flex;
+	background: #eee;
+}
+
+.button {
+  display: inline-block;
+	zoom: 1;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-drag: none;
+	user-select: none;
+	border: transparent;
+  font-size: 110%;
+  font-weight: bold;
+	background: #aaa;
+	padding: .5em 1em;
+	margin: 3px;
+	text-align: center;
+	color: white;
+	border-radius: 4px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.inactive {
+	cursor: default;
+	background: none;
+	color: #444;
+}
+
+.space {
+	flex: 1 auto;
+}
+
+.start {
+  background: rgb(28, 184, 65);
+	color: white;
+}
+
+.stop {
+  background: rgb(202, 60, 60);
+	color: white;
+}

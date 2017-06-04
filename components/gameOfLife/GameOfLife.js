@@ -205,10 +205,10 @@ export default class App extends Component {
           onRandomize={this.setRandom}
           radius={state.radius}
         />
-        <span class="copyright">
+        <div id="copyright">
           &copy; Thomas Bleicher, 2017. 
-          SVG icons via <a href="fontawsome.io" alt="Font Awesome homepage">Font Awesome.</a>
-        </span>
+          SVG icons via <a href="http://fontawesome.io" alt="Font Awesome homepage" target="_blank">Font Awesome.</a>
+        </div>
       </div>
     );
   }

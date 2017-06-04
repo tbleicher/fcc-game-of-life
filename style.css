@@ -1,4 +1,4 @@
-html, body {
+html, body, a {
   font: 14px/1.21 'Helvetica Neue', arial, sans-serif;
   font-weight: 400;
   color: #666;
@@ -58,6 +58,10 @@ svg {
   background: #eee;
 }
 
+#copyright {
+  margin-top: 2px;
+  text-align: right;
+}
 
 /* apparently I can't change just the background color */
 #start {

@@ -18,7 +18,7 @@ export function randomSeed(width, height, radius, rnd=0.8) {
 export default class App extends Component {
   constructor(props) {
     super(props);
-    const radius = 12.5;
+    const radius = 12;
     const { nCols, nRows } = getLayout(props.width, props.height, radius);
 
     this.state = {
@@ -29,6 +29,7 @@ export default class App extends Component {
       nRows,
 
       generation: randomSeed(props.width, props.height, radius),
+      generationCount: 1,
       lifetime: 1600,
       animate: true,
     };
@@ -37,7 +38,7 @@ export default class App extends Component {
     this.clearBoard = this.clearBoard.bind(this);
     this.setRadius = this.setRadius.bind(this);
     this.setRandom = this.setRandom.bind(this);
-    this.setSpeed = this.setSpeed.bind(this);
+    this.setLifetime = this.setLifetime.bind(this);
     this.toggleAnimation = this.toggleAnimation.bind(this);
     this.toggleCell = this.toggleCell.bind(this);
     this.startAnimation = this.startAnimation.bind(this);
@@ -67,7 +68,7 @@ export default class App extends Component {
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius, 2);
     
     this.stopAnimation();
-    this.setState({ generation, animate: false });
+    this.setState({ generation, generationCount: 0, animate: false });
   }
 
 
@@ -90,11 +91,11 @@ export default class App extends Component {
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius);
     
     this.stopAnimation();
-    this.setState({ generation, animate: false });
+    this.setState({ generation, generationCount: 1, animate: false });
   }
 
 
-  setSpeed(multi) {
+  setLifetime(multi) {
     const lifetime = this.state.lifetime * multi;
     console.log(`new lifetime: ${lifetime} ms`);
     if (this._interval) {
@@ -151,8 +152,9 @@ export default class App extends Component {
 
   update(evt) {
     const generation = newGeneration(this.state.generation, this.state.nCols);
+    const generationCount = this.state.generationCount + 1;
 
-    this.setState({ generation });
+    this.setState({ generation, generationCount: this.state.generationCount + 1 });
   }
 
 
@@ -172,14 +174,17 @@ export default class App extends Component {
         />
         <Controls
           animate={state.animate}
+          decreaseRadius={(evt) => this.setRadius(-1)}
+          increaseRadius={(evt) => this.setRadius(1)}
+          decreaseLifetime={(evt) => this.setLifetime(2)}
+          increaseLifetime={(evt) => this.setLifetime(0.5)}
+          generationCount={state.generationCount}
+          lifetime={state.lifetime}
           onClear={this.clearBoard}
           onNext={this.update}
           onStartStop={this.toggleAnimation}
           onRandomize={this.setRandom}
-          decreaseRadius={(evt) => this.setRadius(-1)}
-          increaseRadius={(evt) => this.setRadius(1)}
-          decreaseSpeed={(evt) => this.setSpeed(2)}
-          increaseSpeed={(evt) => this.setSpeed(0.5)}  
+          radius={state.radius}
         />
         <span>SVG icons via Font Awesome.</span>
       </div>

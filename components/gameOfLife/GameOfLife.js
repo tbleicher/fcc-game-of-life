@@ -63,7 +63,6 @@ export default class App extends Component {
 
 
   clearBoard(evt) {
-    evt.preventDefault();
     // create new seed with random treshold above 1 (only dead cells)
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius, 2);
     
@@ -72,8 +71,7 @@ export default class App extends Component {
   }
 
 
-  setRadius(evt, inc) {
-    evt.preventDefault();
+  setRadius(inc) {
     const radius = this.state.radius + inc;
     const { nCols, nRows } = getLayout(this.props.width, this.props.height, radius);
     const coords = getCellCoords(this.props.width, this.props.height, radius)
@@ -89,7 +87,6 @@ export default class App extends Component {
 
 
   setRandom(evt) {
-    evt.preventDefault();
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius);
     
     this.stopAnimation();
@@ -97,8 +94,7 @@ export default class App extends Component {
   }
 
 
-  setSpeed(evt, multi) {
-    evt.preventDefault();
+  setSpeed(multi) {
     const lifetime = this.state.lifetime * multi;
     console.log(`new lifetime: ${lifetime} ms`);
     if (this._interval) {
@@ -154,9 +150,6 @@ export default class App extends Component {
 
 
   update(evt) {
-    if (evt) {
-      evt.preventDefault();
-    }
     const generation = newGeneration(this.state.generation, this.state.nCols);
 
     this.setState({ generation });
@@ -183,10 +176,10 @@ export default class App extends Component {
           onNext={this.update}
           onStartStop={this.toggleAnimation}
           onRandomize={this.setRandom}
-          decreaseRadius={(evt) => this.setRadius(evt, -1)}
-          increaseRadius={(evt) => this.setRadius(evt, 1)}
-          decreaseSpeed={(evt) => this.setSpeed(evt, 2)}
-          increaseSpeed={(evt) => this.setSpeed(evt, 0.5)}  
+          decreaseRadius={(evt) => this.setRadius(-1)}
+          increaseRadius={(evt) => this.setRadius(1)}
+          decreaseSpeed={(evt) => this.setSpeed(2)}
+          increaseSpeed={(evt) => this.setSpeed(0.5)}  
         />
         <span>SVG icons via Font Awesome.</span>
       </div>

@@ -8,6 +8,8 @@ import { newGeneration } from '../common/gameOfLife';
 import { getLayout, getCellCoords, remapGeneration } from '../common/layout';
 
 
+//generate random population of life and dead cells
+//rnd values above 1 produce only dead cells (clear the board)
 export function randomSeed(width, height, radius, rnd=0.8) {
   const coords = getCellCoords(width, height, radius);
   const seed = coords.map((d,i) => ({index: i, x: d.x, y: d.y, life: Math.random() > rnd}));
@@ -15,6 +17,8 @@ export function randomSeed(width, height, radius, rnd=0.8) {
   return seed;
 }
 
+
+//main component 
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +32,7 @@ export default class App extends Component {
       nCols,
       nRows,
 
+      //begin with a random population of cells
       generation: randomSeed(props.width, props.height, radius),
       generationCount: 1,
       lifetime: 1600,
@@ -36,22 +41,25 @@ export default class App extends Component {
     this._interval = null;
     
     this.clearBoard = this.clearBoard.bind(this);
+    this.onNext = this.onNext.bind(this);
     this.setRadius = this.setRadius.bind(this);
     this.setRandom = this.setRandom.bind(this);
     this.setLifetime = this.setLifetime.bind(this);
-    this.toggleAnimation = this.toggleAnimation.bind(this);
-    this.toggleCell = this.toggleCell.bind(this);
     this.startAnimation = this.startAnimation.bind(this);
     this.stopAnimation = this.stopAnimation.bind(this);
+    this.toggleAnimation = this.toggleAnimation.bind(this);
+    this.toggleCell = this.toggleCell.bind(this);
     this.update = this.update.bind(this);
   }
   
-
+  
+  //start D3 update animation after mount
   componentDidMount() {
     this.startAnimation();
   }
 
-
+  
+  //check for changes in props that require complete redraw
   componentWillReceiveProps(nextProps) {
     const { width, height } = nextProps;
     
@@ -62,13 +70,24 @@ export default class App extends Component {
     }
   }
 
-
+  
+  //draw empty board with clickable cells (dead cells) and without blur effect
   clearBoard(evt) {
     // create new seed with random treshold above 1 (only dead cells)
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius, 2);
     
     this.stopAnimation();
     this.setState({ generation, generationCount: 0, animate: false });
+  }
+
+  
+  //produce next generation or stop running animation
+  onNext(evt) {
+    if (this.state.animate) {
+      this.stopAnimation();
+    } else {
+      this.update();
+    }
   }
 
 
@@ -181,12 +200,15 @@ export default class App extends Component {
           generationCount={state.generationCount}
           lifetime={state.lifetime}
           onClear={this.clearBoard}
-          onNext={this.update}
+          onNext={this.onNext}
           onStartStop={this.toggleAnimation}
           onRandomize={this.setRandom}
           radius={state.radius}
         />
-        <span>SVG icons via Font Awesome.</span>
+        <span class="copyright">
+          &copy; Thomas Bleicher, 2017. 
+          SVG icons via <a href="fontawsome.io" alt="Font Awesome homepage">Font Awesome.</a>
+        </span>
       </div>
     );
   }

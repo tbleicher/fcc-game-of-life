@@ -105,7 +105,8 @@ export default class App extends Component {
     this.setState({ nCols, nRows, radius, generation });
   }
 
-
+  
+  //create random seed and set as new population
   setRandom(evt) {
     const generation = randomSeed(this.props.width, this.props.height, this.state.radius);
     
@@ -113,10 +114,11 @@ export default class App extends Component {
     this.setState({ generation, generationCount: 1, animate: false });
   }
 
-
+  
+  //set interval between generations and reset animation timer
   setLifetime(multi) {
     const lifetime = this.state.lifetime * multi;
-    console.log(`new lifetime: ${lifetime} ms`);
+    
     if (this._interval) {
       clearInterval(this._interval);
       this._interval = setInterval(this.update, lifetime);
@@ -125,14 +127,16 @@ export default class App extends Component {
     this.setState({ lifetime });
   }
 
-
+  
+  //create animation timer to trigger generation updates
   startAnimation() {
     this._interval = setInterval(this.update, this.state.lifetime);
     
     this.setState({ animate: true });
   }
 
-
+  
+  //remove animation timer
   stopAnimation() {
     if(this._interval) {
       clearInterval(this._interval);
@@ -143,8 +147,8 @@ export default class App extends Component {
   }
 
 
+  //start or stop animation
   toggleAnimation(evt) {
-    evt.preventDefault();
     const animate = !this.state.animate;
 
     if (animate) {
@@ -157,6 +161,7 @@ export default class App extends Component {
   }
 
 
+  //change cell's life state and update state with new generation
   toggleCell(cell) {
     const generation = this.state.generation.map(d => {
       if (d.index === cell.index) {
@@ -168,7 +173,8 @@ export default class App extends Component {
     this.setState({ generation });
   }
 
-
+  
+  //generation next generation and update state
   update(evt) {
     const generation = newGeneration(this.state.generation, this.state.nCols);
     const generationCount = this.state.generationCount + 1;
@@ -176,7 +182,8 @@ export default class App extends Component {
     this.setState({ generation, generationCount: this.state.generationCount + 1 });
   }
 
-
+  
+  //create GameBoard and Controls components (plus copyright notice)
   render(props, state) {
     return (
       <div>

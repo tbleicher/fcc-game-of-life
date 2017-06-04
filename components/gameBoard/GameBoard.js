@@ -47,7 +47,7 @@ export function drawGrid(svg, width, height, radius) {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("r", 2)
-      .style("fill", "#aaa")
+      .style("fill", "#ccc")
       .style("opacity", 1);
 }
 
@@ -98,7 +98,7 @@ export function updateCells(base, data, radius, lifetime, callback) {
   //remove cells that have died with color change and shrinking
   cells.exit()
     .transition("brown")
-      .duration(lifetime / 6)
+      .duration(lifetime / 3)
       .style("fill", "#970")
     .transition("shrink")
       .duration(lifetime / 3)

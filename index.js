@@ -8,7 +8,7 @@ export default class App extends Component {
 		super(props);
 		this.state = {
 			width: 600,
-			height: 400
+			height: 384
 		};
 	}
 

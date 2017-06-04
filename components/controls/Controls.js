@@ -7,7 +7,7 @@ const Controls = (props) => {
       <div class="space" />
 
       <div class="button" id={text} title={text} onClick={props.onStartStop} />
-      <div class="button" id="next" title="clear board" onClick={props.onNext} />
+      <div class="button" id="next" title="next generation" onClick={props.onNext} />
 
       <div class="label">
         <div class="title">generation:</div>

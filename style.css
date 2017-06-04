@@ -89,6 +89,9 @@ svg {
 #increase {
   background-image: url('./assets/expand.svg');
 }
+#next {
+  background-image: url('./assets/step-forward.svg');
+}
 #random {
   background-image: url('./assets/random.svg');
 }

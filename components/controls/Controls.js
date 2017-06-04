@@ -6,6 +6,8 @@ const Controls = (props) => {
     <div id="controls">
       <div class="space" />
       <div class="button" id={text} title={text} onClick={props.onStartStop} />
+      <div class="button" id="next" title="clear board" onClick={props.onNext} />
+      <div class="label button">generation:</div>
       <div class="button" id="clear" title="clear board" onClick={props.onClear} />
       <div class="button" id="random" title="randomize" onClick={props.onRandomize} />
       <div class="label button">speed:</div>

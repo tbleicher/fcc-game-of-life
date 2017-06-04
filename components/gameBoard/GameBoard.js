@@ -24,7 +24,7 @@ export function addSVGFilter(svg, animate) {
   filter.append("feGaussianBlur")
     .attr("id", "blurFilter")
     .attr("in", "SourceGraphic")
-    .attr("stdDeviation", stdDev)
+    .attr("stdDeviation", "9")
     //to fix safari: http://stackoverflow.com/questions/24295043/svg-gaussian-blur-in-safari-unexpectedly-lightens-image
     .attr("color-interpolation-filters", "sRGB")
     .attr("result", "blur");
@@ -141,16 +141,21 @@ export default class GameBoard extends Component {
   draw() {
     const { width, height, radius, animate, generation, onCellClick } = this.props;
     const svg = select(this.base);
-
-    //remove dead cells if animation is ongoing
-    const data = animate ? generation.filter(cell => cell.life) : generation.slice();
     
     //create blur filter the first time the board is drawn
     if (!document.getElementById(GOOEY_FILTER_ID)) {
       addSVGFilter(svg, animate);
     }
 
+    //set filter stdDev according to radius; disable if not animating
+    const stdDev = animate ? radius * 0.75 : 0;
+    document.getElementById("blurFilter").setAttribute("stdDeviation", `${stdDev}`);
+    
+    //create grid markers
     drawGrid(svg, width, height, radius);
+
+    //remove dead cells if animation is ongoing
+    const data = animate ? generation.filter(cell => cell.life) : generation.slice();
     drawCells(svg, width, height, radius, data, onCellClick);
   }
 
@@ -165,15 +170,6 @@ export default class GameBoard extends Component {
   componentDidUpdate() {
     this.clear();
     this.draw();
-  }
-
-  
-  //disable blur filter when board is not animating
-  componentWillReceiveProps(nextProps) { 
-    if (nextProps.animate !== this.props.animate) {
-      const stdDev = nextProps.animate ? 9 : 0;
-      document.getElementById("blurFilter").setAttribute("stdDeviation", `${stdDev}`);
-    }
   }
 
   
